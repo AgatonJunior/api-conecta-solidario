@@ -1,6 +1,7 @@
 const express = require('express');
 const pool = require('../config/database');
 const { getAbrigos, postAbrigos, putAbrigos, deleteAbrigos } = require ( '../controllers/abrigoController');
+const validarAbrigo = require('../middlewares/abrigoValidator');
 
 const rotas = express.Router();
 
@@ -10,9 +11,9 @@ rotas.get('/', (req, res) => {
 
 rotas.get('/abrigos', getAbrigos);
 
-rotas.post('/abrigos', postAbrigos);
+rotas.post('/abrigos', validarAbrigo, postAbrigos);
 
-rotas.put('/abrigos/:id', putAbrigos);
+rotas.put('/abrigos/:id', validarAbrigo, putAbrigos);
 
 rotas.delete('/abrigos/:id', deleteAbrigos);
 
