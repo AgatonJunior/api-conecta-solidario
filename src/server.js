@@ -4,15 +4,16 @@ const { Pool } = require('pg');
 const cors = require('cors');
 const abrigoRoute = require('./routes/abrigoRoute');
 
-const app = express();
+const server = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
-app.use(cors());
-app.use(express.json());  
+server.use(cors());
+server.use(express.json());  
+server.use(express.urlencoded({ extended: true }));
 
-app.use('/', abrigoRoute);
-
-app.listen(PORT, () => {
+// Rotas
+server.use('/', abrigoRoute); 
+server.listen(PORT, () => {
   console.log(`Servidor rodando na porta  http//:localhost:${PORT}`);
 });
