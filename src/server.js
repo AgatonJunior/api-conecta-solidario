@@ -4,6 +4,7 @@ const { Pool } = require('pg');
 const cors = require('cors');
 const abrigoRoute = require('./routes/abrigoRoute');
 const voluntariosRoute = require('./routes/voluntariosRoute')
+const desabrigadosRoutes = require('./routes/desabrigadosRoute')
 
 const server = express();
 const PORT = process.env.PORT || 3000;
@@ -15,7 +16,9 @@ server.use(express.urlencoded({ extended: true }));
 
 // Rotas
 server.use('/', abrigoRoute); 
-server.use('/', voluntariosRoute)
+server.use('/', voluntariosRoute);
+server.use('/', desabrigadosRoutes);
+
 server.listen(PORT, () => {
   console.log(`Servidor rodando na porta  http//:localhost:${PORT}`);
 });
