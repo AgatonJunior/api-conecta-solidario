@@ -1,3 +1,6 @@
+const express = require('express');
+const pool = require('../config/database');
+
 const getVoluntarios = async (req, res) =>{
     try {
         const resultado = await pool.query ('SELECT * FROM voluntarios');
@@ -65,6 +68,26 @@ const putVoluntarios = async (req, res) =>{
     }
 };
 
+const patchDisponibilidade = async (req, res) => {
+    const { id } = req.params;
+    const { disponivel } = req.body;
+
+    try {
+        const resultado = await pool.query(
+            `UPDATE voluntarios
+            SET disponivel = $1
+            WHERE id = $2
+            RETURNING *
+            `,
+            [disponivel, id]
+        );
+        return res.status(200).json(resultado.rows[0]);   
+    } catch (error) {
+        console.error('Erro ao atualizar disponibilidade do voluntário:', error);
+        return res.status(500).json({ erro: 'Erro ao atualizar disponibilidade do voluntário' });
+    }
+}
+
 const deleteVoluntarios = async (req, res) => {
     const { id } = req.params;
 
@@ -75,7 +98,7 @@ const deleteVoluntarios = async (req, res) => {
             RETURNING *`,
             [id]
         );
-        return res.status(200).json(resultado.rows[0]);
+        return res.status(200).json({mensagem: 'Voluntário excluído com sucesso!    '});
     } catch (error) {
         console.error('Erro ao excluir voluntário:', error);
         return res.status(500).json({ erro: 'Erro ao excluir voluntário' });
@@ -86,5 +109,6 @@ module.exports = {
     getVoluntarios,
     postVoluntarios,
     putVoluntarios,
+    patchDisponibilidade,
     deleteVoluntarios
 }
