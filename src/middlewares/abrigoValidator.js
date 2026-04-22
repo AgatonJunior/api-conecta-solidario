@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const abrigoShema = Joi.object ({
+const abrigoSchema = Joi.object ({
     nome: Joi.string().min(3).required().messages({
         'string.empty': 'O nome do abrigo é obrigatório',
         'string.min': 'O nome do abrigo deve conter pelo menos 3 caracteres',}),
@@ -32,7 +32,7 @@ const abrigoShema = Joi.object ({
 });
 
 const validarAbrigo = (req, res, next) => {
-    const { error } = abrigoShema.validate(req.body, { abortEarly: false });
+    const { error } = abrigoSchema.validate(req.body, { abortEarly: false });
 
     if ( error ) {
         console.log('BODY RECEBIDA:', req.body);
