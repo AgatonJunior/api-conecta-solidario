@@ -25,6 +25,13 @@ const voluntariosSchema = Joi.object({
     }),
 });
 
+const disponibilidadeSchema = Joi.object({
+    disponivel: Joi.boolean().required().messages({
+        'boolean.base': 'O campo disponivel deve ser true ou false!',
+        'any.required': 'O campo disponivel é obrigatório!'
+    })
+});
+
 const validarVoluntarios = (req, res, next) => {
     const { error } = voluntariosSchema.validate(req.body, { abortEarly: false });
     if (error) {
@@ -35,4 +42,12 @@ const validarVoluntarios = (req, res, next) => {
     next();
 };
 
-module.exports = { validarVoluntarios };
+const validarDisponibilidade = (req, res, next) => {
+    const { error } = disponibilidadeSchema.validate(req.body, { abortEarly: false });
+    if (error) {
+        return res.status(400).json({ erro: error.details.map(e => e.message) });
+    }
+    next();
+};
+
+module.exports = { validarVoluntarios, validarDisponibilidade };

@@ -1,18 +1,17 @@
 const express = require('express');
-const pool = require('../config/database');
-const { getVoluntarios, postVoluntarios, deleteVoluntarios, putVoluntarios, patchDisponibilidade } = require('../controllers/voluntariosController');
-const { validarVoluntarios } = require('../middlewares/voluntariosValidator');
-
+const { getVoluntarios, postVoluntarios, putVoluntarios, patchDisponibilidade, deleteVoluntarios } = require('../controllers/voluntariosController');
+const { validarVoluntarios, validarDisponibilidade } = require('../middlewares/voluntariosValidator'); 
+const { verificarToken } = require('../middlewares/loginAuth'); 
 const rotas = express.Router();
 
 rotas.get('/voluntarios', getVoluntarios);
 
-rotas.post('/voluntarios', validarVoluntarios, postVoluntarios );
+rotas.post('/voluntarios', verificarToken, validarVoluntarios, postVoluntarios);
 
-rotas.put('/voluntarios/:id', validarVoluntarios, putVoluntarios );
+rotas.put('/voluntarios/:id', verificarToken, validarVoluntarios, putVoluntarios);
 
-rotas.patch('/:id/disponibilidade', validarVoluntarios, patchDisponibilidade );
+rotas.patch('/voluntarios/:id/disponibilidade', verificarToken, validarDisponibilidade, patchDisponibilidade);
 
-rotas.delete('/voluntarios/:id', deleteVoluntarios );
+rotas.delete('/voluntarios/:id', verificarToken, deleteVoluntarios);
 
 module.exports = rotas;
