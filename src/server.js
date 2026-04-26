@@ -21,6 +21,7 @@ server.use('/', voluntariosRoute);
 server.use('/', desabrigadosRoute);
 server.use('/', loginRoute);
 
-server.listen(PORT, () => {
-  console.log(`Servidor rodando na porta  http//:localhost:${PORT}`);
+
+app.listen(PORT, () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
 });

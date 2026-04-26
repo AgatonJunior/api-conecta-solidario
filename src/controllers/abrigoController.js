@@ -5,7 +5,6 @@ const getAbrigos = async (req, res) => {
         const resultado = await pool.query('SELECT * FROM abrigos');
         res.json(resultado.rows);
     } catch (error) {
-        console.error('Erro GET /abrigos:', error.message);
         res.status(500).json({ error: 'Erro ao buscar os abrigos' });
     }
 };
@@ -20,7 +19,6 @@ const postAbrigos = async (req, res) => {
         );
         res.status(201).json({ mensagem: 'Abrigo cadastrado com sucesso', post: resultado.rows[0] });
     } catch (error) {
-        console.error('Erro POST /abrigos:', error.message);
         res.status(500).json({ error: 'Erro ao cadastrar o abrigo' });
     }
 };
@@ -43,7 +41,6 @@ const putAbrigos = async (req, res) => {
         }
         return res.status(200).json({ post: resultado.rows[0] });
     } catch (error) {
-        console.error('Erro PUT /abrigos:', error.message);
         return res.status(500).json({ error: 'Erro ao atualizar o abrigo' });
     }
 };
@@ -58,7 +55,6 @@ const deleteAbrigos = async (req, res) => {
         }
         return res.status(200).json({ mensagem: 'Abrigo deletado com sucesso!' });
     } catch (error) {
-        console.error('Erro DELETE /abrigos:', error.message);
         return res.status(500).json({ error: 'Erro ao deletar o abrigo' });
     }
 };

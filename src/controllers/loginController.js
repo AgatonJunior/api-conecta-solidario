@@ -23,7 +23,6 @@ const criarAdmin = async (req, res) => {
             admin: resultado.rows[0] 
         });
     } catch (error) {
-        console.error('Erro ao criar admin:', error);
         return res.status(500).json({ erro: 'Erro ao criar admin' });
     }
 };
@@ -54,7 +53,6 @@ const login = async (req, res) => {
 
         return res.status(200).json({ token });
     } catch (error) {
-        console.error('Erro ao fazer login:', error);
         return res.status(500).json({ erro: 'Erro ao fazer login' });
     }
 };

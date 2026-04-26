@@ -25,8 +25,6 @@ const desabrigadosSchema = Joi.object({
 const validarDesabrigados = (req, res, next) => {        
     const { error } = desabrigadosSchema.validate(req.body, { abortEarly: false });
     if (error) {
-        console.log('BODY RECEBIDA:', req.body);
-        console.error(error);
         return res.status(400).json({ erro: error.details.map(e => e.message) });
     }
     next();

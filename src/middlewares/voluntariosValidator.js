@@ -35,8 +35,6 @@ const disponibilidadeSchema = Joi.object({
 const validarVoluntarios = (req, res, next) => {
     const { error } = voluntariosSchema.validate(req.body, { abortEarly: false });
     if (error) {
-        console.log('BODY RECEBIDA:', req.body);
-        console.error(error);
         return res.status(400).json({ erro: error.details.map(e => e.message) });
     }
     next();
