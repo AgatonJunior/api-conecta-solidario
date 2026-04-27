@@ -1,6 +1,5 @@
 require('dotenv').config();
 const express = require('express');
-const { Pool } = require('pg');
 const cors = require('cors');
 const abrigoRoute = require('./routes/abrigoRoute');
 const voluntariosRoute = require('./routes/voluntariosRoute')
@@ -22,6 +21,6 @@ server.use('/', desabrigadosRoute);
 server.use('/', loginRoute);
 
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });
