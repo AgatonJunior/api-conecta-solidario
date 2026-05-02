@@ -48,13 +48,29 @@ const putAbrigos = async (req, res) => {
 const deleteAbrigos = async (req, res) => {
     const { id } = req.params;
     try {
-        const resultado = await pool.query('DELETE FROM abrigos WHERE id = $1', [id]);
-
+        const vinculados = await pool.query(
+            `SELECT COUNT(*) FROM desabrigados WHERE abrigo_id = $1 AND saida_em IS NULL`,
+            [id]
+        );
+ 
+        if (parseInt(vinculados.rows[0].count) > 0) {
+            return res.status(400).json({
+                error: 'Não é possível excluir: há desabrigados ativos neste abrigo'
+            });
+        }
+ 
+        const resultado = await pool.query(
+            'DELETE FROM abrigos WHERE id = $1',
+            [id]
+        );
+ 
         if (resultado.rowCount === 0) {
             return res.status(404).json({ error: 'Abrigo não encontrado' });
         }
+ 
         return res.status(200).json({ mensagem: 'Abrigo deletado com sucesso!' });
     } catch (error) {
+        console.error('Erro ao deletar abrigo:', error);
         return res.status(500).json({ error: 'Erro ao deletar o abrigo' });
     }
 };

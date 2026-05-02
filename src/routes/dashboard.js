@@ -1,8 +1,9 @@
 const express = require('express');
 const rotas  = express.Router();
 const pool = require('../config/database');
+const { verificarToken } = require('../middlewares/loginAuth');
 
-rotas.get('/', async (req, res) => {
+rotas.get('/', verificarToken, async (req, res) => {
   try {
     const [abrigos, voluntarios, desabrigados, vagas] = await Promise.all([
       pool.query(`SELECT COUNT(*) FROM abrigos WHERE ativo = TRUE`),

@@ -3,13 +3,14 @@ const pool = require ('../config/database')
 const rotas = express.Router()
 const { getDesabrigados, postDesabrigados, patchDesabrigaddos } = require('../controllers/desabrigadosController');
 const { validarDesabrigados } = require('../middlewares/desabrigadosValidator');
+const { verificarToken } = require('../middlewares/loginAuth');
 
 
-rotas.get('/desabrigados', getDesabrigados);
+rotas.get('/desabrigados', verificarToken, getDesabrigados);
 
-rotas.post('/desabrigados', validarDesabrigados, postDesabrigados);
+rotas.post('/desabrigados', verificarToken, validarDesabrigados, postDesabrigados);
 
-rotas.patch('/desabrigados/:id/saida', validarDesabrigados, patchDesabrigaddos )
+rotas.patch('/desabrigados/:id/saida', verificarToken, validarDesabrigados, patchDesabrigaddos )
 
 
 module.exports = rotas;

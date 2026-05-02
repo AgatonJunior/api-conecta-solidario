@@ -10,7 +10,7 @@ rotas.get('/', (req, res) => {
     res.send('<h1>Conecta Solidário</h1>');
 });
 
-rotas.get('/abrigos', getAbrigos);
+rotas.get('/abrigos', verificarToken, getAbrigos);
 
 rotas.post('/abrigos', verificarToken, validarAbrigo, postAbrigos);
 

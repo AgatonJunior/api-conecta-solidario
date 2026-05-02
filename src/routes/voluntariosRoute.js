@@ -4,7 +4,7 @@ const { validarVoluntarios, validarDisponibilidade } = require('../middlewares/v
 const { verificarToken } = require('../middlewares/loginAuth'); 
 const rotas = express.Router();
 
-rotas.get('/voluntarios', getVoluntarios);
+rotas.get('/voluntarios', verificarToken, getVoluntarios);
 
 rotas.post('/voluntarios', verificarToken, validarVoluntarios, postVoluntarios);
 

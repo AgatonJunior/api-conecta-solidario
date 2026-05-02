@@ -8,7 +8,18 @@ const SALT_ROUNDS = 10;
 const criarAdmin = async (req, res) => {
     const { nome, email, senha } = req.body;
 
+    if (!nome || !email || !senha) {
+        return res.status(400).json({ erro: 'nome, email e senha são obrigatórios' });
+    }
+
     try {
+
+        const emailExistente = await pool.query(
+            `SELECT id FROM admins WHERE email = $1`, [email]
+        );
+        if (emailExistente.rows.length > 0) {
+            return res.status(409).json({ erro: 'E-mail já cadastrado' });
+        }   
 
         const senha_hash = await bcrypt.hash(senha, SALT_ROUNDS);
 
@@ -23,12 +34,17 @@ const criarAdmin = async (req, res) => {
             admin: resultado.rows[0] 
         });
     } catch (error) {
-        return res.status(500).json({ erro: 'Erro ao criar admin' });
-    }
+    console.error('ERRO REAL:', error);
+    return res.status(500).json({ erro: error.message });
+}
 };
 
 const login = async (req, res) => {
     const { email, senha } = req.body;
+
+    if (!email || !senha) {
+        return res.status(400).json({ erro: 'email e senha são obrigatórios' });
+    }
 
     try {
         const resultado = await pool.query(
@@ -48,7 +64,7 @@ const login = async (req, res) => {
         const token = jwt.sign(
             { id: resultado.rows[0].id },
             process.env.JWT_SECRET,
-            { expiresIn: '1h' }
+            { expiresIn: '2h' }
         );
 
         return res.status(200).json({ token });

@@ -13,7 +13,7 @@ const verificarToken = (req, res, next) => {
 
         next(); 
     } catch (error) {
-        return res.status(401).json({message: 'Token Inválido'})
+        return res.status(401).json({mensagem: 'Token inválido'})
     } 
 }
 
