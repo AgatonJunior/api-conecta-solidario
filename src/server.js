@@ -5,6 +5,7 @@ const abrigoRoute = require('./routes/abrigoRoute');
 const voluntariosRoute = require('./routes/voluntariosRoute')
 const desabrigadosRoute = require('./routes/desabrigadosRoute')
 const loginRoute = require('./routes/loginRoute');  
+const dashboardRoute = require('./routes/dashboard');
 
 const server = express();
 const PORT = process.env.PORT || 3000;
@@ -19,6 +20,7 @@ server.use('/', abrigoRoute);
 server.use('/', voluntariosRoute);
 server.use('/', desabrigadosRoute);
 server.use('/', loginRoute);
+server.use('/dashboard', dashboardRoute)
 
 
 server.listen(PORT, () => {
